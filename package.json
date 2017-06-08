@@ -8,11 +8,10 @@
     "express": "^4.15.3",
     "express-query-int": "^1.0.1",
     "lodash": "^4.17.4",
-    "mongoose": "^4.10.4",
-    "mongoose-paginate": "^5.0.3",
     "mqtt": "^2.8.1",
     "node-restful": "^0.2.6",
-    "pm2": "^2.4.6"
+    "pm2": "^2.4.6",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

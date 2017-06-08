@@ -1,5 +1,7 @@
 const mqtt = require('mqtt');
 const client = mqtt.connect('mqtt://localhost');
+var sqlite3 = require('sqlite3').verbose();
+var dbName = "shed_database";
 
 client.on('connect', () => {
   client.subscribe('shed/room1/sensor1/temperature');
@@ -14,10 +16,10 @@ client.on('message', (topic,message) => {
   console.log('received message %s %s', topic , message);
   switch(topic){
     case 'shed/room1/sensor1/temperature':
-      handleTemperatureUpdate(message);
+      handleTemperatureUpdate(topic, message);
     break;
     case 'shed/room1/sensor1/pressure':
-      handlePressureUpdate(message);
+      handlePressureUpdate(topic, message);
     break;
     case 'shed/room1/sensor1/state':
       handleStateUpdate(message);
@@ -27,15 +29,37 @@ client.on('message', (topic,message) => {
   }
 })
 
-function handleTemperatureUpdate(message){
-    console.log('Temperature is: %s', message);
+function handleTemperatureUpdate(topic, message){
+  console.log('Temperature is: %s', message);
+  //putOnDB(topicToDB(topic));
+  putOnDB('room1_sensor1_temperature');
 }
 
-function handlePressureUpdate(message){
-    console.log('Pressure is: %s', message);
+function handlePressureUpdate(topic, message){
+  console.log('Pressure is: %s', message);
+  //putOnDB(topicToDB(topic));
+  putOnDB('room1_sensor1_pressure');
 }
 
 function handleStateUpdate(message){
     console.log('State is: %s', message);
 }
+
+function putOnDB(table){
+  var db = new sqlite3.Database(dbName);
+  db.exec(`INSERT INTO ${table} (col1,col2) VALUES ("2017-06-07 23:57:23.555", 20.5)`);
+  db.all(`SELECT col1, col2 FROM ${table}`, function(err, rows){
+    rows.forEach(function(row){
+      console.log(row.col1, row.col2);
+    })
+  })
+  db.close();
+}
+
+/*function topicToDB(topic){
+  String result = topic - 'shed/';
+  result = result.split('/').join('_');
+  console.log(`topicToDB: ${result}`);
+  return result;
+}*/
 
