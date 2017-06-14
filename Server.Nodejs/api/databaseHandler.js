@@ -1,6 +1,6 @@
-var async = require('async');
-var sqlite3 = require('sqlite3').verbose();
-var dbName = "shed_database";
+const async = require('async');
+const sqlite3 = require('sqlite3').verbose();
+const dbName = "shed_database";
 //Array to hold Assync Tasks
 var asyncTasks = [];
 
@@ -23,15 +23,28 @@ this.insert = function(value, table, pos){
 
 this.select = function(table, selection){
   var sel = typeof selection !== 'undefined' ? selection: "*";
-  var result;
   var db = new sqlite3.Database(dbName);
-  //Blocking DB query
-  result = db.all(`SELECT ${sel} FROM ${table}`);  
-  console.log(`${result}`);
   //It's not working already.
-  /*result.forEach(function(row){
-    console.log(row.col1, row.col2);
-  })*/
-  db.close();
-  return result;
+  async.parallel({
+    result: queryRows(sel, table, db)
+  },
+  function(result){
+	console.log(`Returning: ${result}`);
+    db.close();
+    return result;
+  });
+}
+
+function queryRows(sel, table, db){
+  return function(cb){
+     var rows = [];
+     db.exec(`SELECT ${sel} FROM ${table}`)
+	   .on('row', function(r){
+		 console.log(`Row: ${r}`);
+	     rows.push(r)
+	   })
+	   .on('result', function(){
+	     cb(rows)
+	   })
+  }
 }
