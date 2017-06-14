@@ -1,0 +1,37 @@
+<div id="select-parameters" style="position: absolute; top:20px; left:20px; width: 450px; height: 100px; color:#000045"><font size="2">
+  <form action="/dataRequested/submit" method="post">
+    <div id="shed" style="position: absolute; left:20px; width: 100px; height: 100px">
+      <h3>Shed</h3>
+        <select name="shed">
+          {{#each sheds as |val key|}}
+            <option value="{{val}}">Shed {{val}}</option>
+          {{/each}}
+        </select>
+    </div>
+    <div id="room" style="position: absolute; left:120px; width: 100px; height: 100px;">
+      <h3>Room</h3>
+        <select name="room">
+          {{#each rooms as |val key|}}
+            <option value="{{val}}">Room {{val}}</option>
+          {{/each}}
+        </select>
+    </div>
+    <div id="sensor" style="position: absolute; left:220px; width: 100px; height: 100px;">
+      <h3>Sensor</h3>
+        <select name="sensor">
+          {{#each sensors as |val key|}}
+            <option value="{{val}}">Sensor {{val}}</option>
+          {{/each}}
+        </select>
+    </div>
+    <div id="data-type" style="position: absolute; left:320px; width: 100px; height: 100px;">
+      <h3>Data Type</h3>
+        <select name="dataType">
+          {{#each dataTypes as |val key|}}
+            <option value="{{val}}">{{val}}</option>
+          {{/each}}
+        </select>
+    </div>
+    <button type="submit" style="position: absolute; top:150px; left:20px">Submit</button>
+  </form>
+</font></div>
