@@ -4,27 +4,25 @@ const mqtt = require('mqtt');
 const client = mqtt.connect('mqtt://localhost');
 
 client.on('connect', () => {
-  client.subscribe('shed/room1/#');  
+  client.subscribe('#');
   //Inform nodes that receiver is connected
   //client.publish('shed/connected', 'true');
   //sendStateUpdate();
 })
 
 client.on('message', (topic,message) => {
-  console.log('received message %s %s', topic , message);
-  switch(topic){
-    case 'shed/room1/sensor1/temperature':
-      handleTemperatureUpdate(topic, message);
-    break;
-    case 'shed/room1/sensor1/pressure':
-      handlePressureUpdate(topic, message);
-    break;
-    case 'shed/room1/sensor1/state':
-      handleStateUpdate(message);
-    break;
-    default:
-      console.log('No handler for topic %s', topic);
-  }
+  console.log('Received message <%s> on topic <%s>', message, topic);
+  var array = topic.split('/'); //array[0] has the sensor code and array[1] the dataType
+  dbHandler.checkSensorExists(array[0], function(sensorExists) {
+    if(sensorExists) {
+      console.log("Sensor com o code <" + array[0] + "> existe");
+    } else {
+      console.log("Sensor com o code <" + array[0] + "> NÃO existe");
+    }
+  });
+  //handleTemperatureUpdate(topic, message);
+  //handlePressureUpdate(topic, message);
+  //handleStateUpdate(message);
 })
 
 function handleTemperatureUpdate(topic, message){

@@ -1,8 +1,30 @@
-const async = require('async');
+const async = require('async')
 const sqlite3 = require('sqlite3').verbose();
-const dbName = "shed_database";
+const dbName = "dataBaseSS";
 //Array to hold Assync Tasks
 var asyncTasks = [];
+
+
+this.checkSensorExists = function(code, callback){
+  var db = new sqlite3.Database(dbName);
+  db.get("SELECT count(*) FROM sensor WHERE code=?", [code], function(err, search){
+    if(err) {
+      console.log("Error while doing query: " + err);
+    } else {
+      var sensorExists = false;
+      var qtdeElements = search[Object.keys(search)[0]];
+      if(qtdeElements > 0) {
+        sensorExists = true;
+        console.log("Achou elementos com o code: " + code);
+      } else {
+        sensorExists = false;
+        console.log("Não achou elementos com o code: " + code);
+      }
+      db.close();
+      return callback(sensorExists);
+    }
+  });
+}
 
 this.putOnDB = function(table){
   var db = new sqlite3.Database(dbName);
