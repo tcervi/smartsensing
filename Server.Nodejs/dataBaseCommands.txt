@@ -1,0 +1,25 @@
+Get all from a table:
+  SELECT * FROM <table>;
+--------------------------------------------------------------
+Insert on a table:
+  INSERT INTO <table> VALUES (value1, value2, value3,...valueN);
+--------------------------------------------------------------
+Get ID from name:
+  SELECT <ID> FROM <table> WHERE name=<"name">;
+--------------------------------------------------------------
+Insert using another query:
+  INSERT INTO room SELECT NULL, "roomA", "Test room description", shedID FROM shed WHERE name="Shed";
+
+  INSERT INTO sensor SELECT NULL, "cc60", NULL, roomID FROM room WHERE name="roomB";
+--------------------------------------------------------------
+Insert using two queries(from different tables):
+  INSERT INTO measure SELECT NULL, 20, (SELECT dateTime("now", "localtime")), sensorID, (SELECT dataTypeID FROM dataType WHERE name ="temperature") FROM sensor WHERE code="bd96";
+--------------------------------------------------------------
+Delete row from name:
+  DELETE FROM <table> WHERE name=<"name">;
+--------------------------------------------------------------
+Delete table:
+  DROP TABLE <table>;
+--------------------------------------------------------------
+Get columns from different tables that are related
+  SELECT (a.code || '-' || b.name || '-' || c.name) FROM sensor a INNER JOIN room b ON a.roomID=b.roomID INNER JOIN shed c ON b.shedID=c.shedID;

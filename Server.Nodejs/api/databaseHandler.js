@@ -50,3 +50,19 @@ this.showMeasuresOfDB = function(callback){
       callback();
   });
 }
+
+this.getAllSensorsOnDB = function(callback){
+  var db = new sqlite3.Database(dbName);
+  db.all("SELECT (a.code || '-' || b.name || '-' || c.name) FROM sensor a INNER JOIN room b ON a.roomID=b.roomID INNER JOIN shed c ON b.shedID=c.shedID", function(err, elements){
+    if(err) {
+      console.log("Error while doing query on function getAllSensorsOnDB: " + err);
+    } else {
+      var sensors = [];
+      elements.forEach(function(element){
+        sensors.push(element[Object.keys(element)[0]]);
+      })
+    }
+      db.close();
+      callback(sensors);
+  });
+}
