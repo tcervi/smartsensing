@@ -1,24 +1,21 @@
 const async = require('async')
 const sqlite3 = require('sqlite3').verbose();
 const dbName = "dataBaseSS";
-//Array to hold Assync Tasks
-var asyncTasks = [];
-
 
 this.checkSensorExists = function(code, callback){
   var db = new sqlite3.Database(dbName);
   db.get("SELECT count(*) FROM sensor WHERE code=?", [code], function(err, search){
     if(err) {
-      console.log("Error while doing query: " + err);
+      console.log("Error while doing query on function checkSensorExists: " + err);
     } else {
       var sensorExists = false;
       var qtdeElements = search[Object.keys(search)[0]];
       if(qtdeElements > 0) {
         sensorExists = true;
-        console.log("Achou elementos com o code: " + code);
+        console.log("There is a sensor with code <" + code + ">");
       } else {
         sensorExists = false;
-        console.log("Não achou elementos com o code: " + code);
+        console.log("There isn't a sensor with code <" + code + ">");
       }
       db.close();
       return callback(sensorExists);
@@ -26,47 +23,30 @@ this.checkSensorExists = function(code, callback){
   });
 }
 
-this.putOnDB = function(table){
+this.insertMeasureOnDB = function(code, dataType, measure, callback){
   var db = new sqlite3.Database(dbName);
-  db.all(`SELECT col1, col2 FROM ${table}`, function(err, rows){
-    rows.forEach(function(row){
-      console.log(row.col1, row.col2);
-    })
-  })
-  db.close();
-}
-
-this.insert = function(value, table, pos){
-  var position = typeof pos !== 'undefined' ? pos:" ";
-  var db = new sqlite3.Database(dbName);
-  db.exec(`INSERT INTO ${table} ${position} VALUES (${value})`);
-  db.close();
-}
-
-this.select = function(table, selection){
-  var sel = typeof selection !== 'undefined' ? selection: "*";
-  var db = new sqlite3.Database(dbName);
-  //It's not working already.
-  async.parallel({
-    result: queryRows(sel, table, db)
-  },
-  function(result){
-	console.log(`Returning: ${result}`);
-    db.close();
-    return result;
+  db.get("INSERT INTO measure SELECT NULL, ?, (SELECT dateTime('now', 'localtime')), sensorID, (SELECT dataTypeID FROM dataType WHERE name =?) FROM sensor WHERE code=?", [measure, dataType, code], function(err){
+    if(err) {
+      console.log("Error while doing query on function insertMeasureOnDB: " + err);
+    } else {
+      console.log("Measure <" + measure + "> with data type <" + dataType + "> was inserted successfully on sensor with code <" + code + ">!!!");
+    }
+      db.close();
+      callback();
   });
 }
 
-function queryRows(sel, table, db){
-  return function(cb){
-     var rows = [];
-     db.exec(`SELECT ${sel} FROM ${table}`)
-	   .on('row', function(r){
-		 console.log(`Row: ${r}`);
-	     rows.push(r)
-	   })
-	   .on('result', function(){
-	     cb(rows)
-	   })
-  }
+this.showMeasuresOfDB = function(callback){
+  var db = new sqlite3.Database(dbName);
+  db.all("SELECT * FROM measure", function(err, rows){
+    if(err) {
+      console.log("Error while doing query on function showMeasuresOfDB: " + err);
+    } else {
+      rows.forEach(function(row){
+        console.log(row);
+      })
+    }
+      db.close();
+      callback();
+  });
 }
