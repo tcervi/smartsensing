@@ -2,10 +2,11 @@
   <form action="/monitoring" method="post">
     <h2>Monitoring Sensor with code - '{{sensor}}'</h2>
     <input type="hidden" name="sensor" value="{{sensor}}"></input>
+    <input type="hidden" name="nMeasures" value="{{nMeasures}}"></input>
+    <input type="hidden" name="maxValue" value="{{maxValue}}"></input>
+    <input type="hidden" name="minValue" value="{{minValue}}"></input>
   </form>
-  <br></br>
   <canvas id="graph"></canvas>
-  <br></br>
   <form action="/configureMonitorSensor" method="get">
     <button type="submit">Back to Configure Monitor</button>
   </form>
@@ -17,11 +18,11 @@
   setTimeout(function(){document.forms[0].submit();}, 5000);
   var graph;
   var xPadding = 30;
-  var yPadding = 30;
+  var yPadding = 130;
 
   var data = [];
   var measures = [{{measures}}];
-  //var timeLogs = [{{timeLogs}}];
+  var timeLogs = "{{timeLogs}}".split(',');
   var len = measures.length;
   for (var i = 0; i < len; i++) {
       data.push({
@@ -32,13 +33,7 @@
 
   // Returns the max Y value in our data list
   function getMaxY() {
-      /*var max = 0;
-      for(var i = 0; i < data.length; i ++) {
-          if(data[i].Y > max) {
-              max = data[i].Y;
-          }
-      }*/
-      max = 40;
+      max = 50;
       max += 10 - max % 10;
       return max;
   }
@@ -57,20 +52,19 @@
 
   // Return the x pixel for a graph point
   function getXPixel(val) {
-      // uses the getMaxX() function
-      return ((graph.width - xPadding) / getMaxX()) * val + (xPadding * 1.5);
+      return xPadding + (((graph.width - xPadding) / getMaxX()) * val);
   }
 
   // Return the y pixel for a graph point
   function getYPixel(val) {
-      return graph.height - (((graph.height - yPadding) / getMaxY()) * val) - yPadding;
+      return graph.height  - yPadding - (((graph.height - yPadding) / getMaxY()) * val);
   }
 
   graph = document.getElementById("graph");
   var c = graph.getContext('2d');
 
   graph.width = 600;
-  graph.height = 300;
+  graph.height = 400;
 
   c.lineWidth = 2;
   c.strokeStyle = '#333';
@@ -79,15 +73,39 @@
 
   // Draw the axises
   c.beginPath();
-  c.moveTo(xPadding, 0);
+  c.moveTo(xPadding, xPadding);
   c.lineTo(xPadding, graph.height - yPadding);
-  c.lineTo(graph.width, graph.height - yPadding);
+  c.lineTo(graph.width - xPadding/2, graph.height - yPadding);
   c.stroke();
+
+  maxValue = {{maxValue}};
+  minValue = {{minValue}};
+
+  // Draw the maxValueLine
+  var maxValuePx = (graph.height - yPadding)*(getMaxY()-maxValue)/getMaxY();
+  c.beginPath();
+  c.moveTo(xPadding, maxValuePx);
+  c.lineTo(graph.width - xPadding/2, maxValuePx);
+  c.setLineDash([5, 15]);
+  c.strokeStyle = '#ff0000';
+  c.stroke();
+
+  // Draw the minValueLine
+  var minValuePx = (graph.height - yPadding)*(getMaxY()-minValue)/getMaxY();
+  c.beginPath();
+  c.moveTo(xPadding, minValuePx);
+  c.lineTo(graph.width - xPadding/2, minValuePx);
+  c.stroke();
+  c.setLineDash([]);;
 
   // Draw the X value texts
   for(var i = 0; i < data.length; i ++) {
-      // uses data[i].X
-      c.fillText(data[i].X, getXPixel(data[i].X), graph.height - yPadding + 20);
+  c.save();
+  c.translate(getXPixel(data[i].X), (graph.height - yPadding + 20));
+  c.rotate(Math.PI/2);
+  c.textAlign = "left";
+  c.fillText(timeLogs[i], 0, 0);
+  c.restore();
   }
 
   // Draw the Y value texts
@@ -98,7 +116,7 @@
       c.fillText(i, xPadding - 10, getYPixel(i));
   }
 
-  c.strokeStyle = '#f00';
+  c.strokeStyle = '#0000cf';
 
   // Draw the line graph
   c.beginPath();

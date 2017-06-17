@@ -1,22 +1,32 @@
 <font size="4" style="color:#000045">
   <form action="/monitoring" method="post">
-    <div id="allSensors">
-      <label>Choose the Sensor (code-room-shed)</label>
-      <select name="sensor">
-        {{#each sensors as |val key|}}
-          <option value="{{val}}">{{val}}</option>
-        {{/each}}
-      </select>
-    </div>
+    <label>Choose the Sensor (code-room-shed):</label>
+    <select name="sensor">
+      {{#each sensors as |val key|}}
+        <option value="{{val}}">{{val}}</option>
+      {{/each}}
+    </select>
     <br></br>
-    <button type="submit">Submit</button>
+    <br></br>
+    <label>Choose the interval in which the measures should be (between 0 and 50):</label>
+    <br></br>
+    <label>The values should be between </label>
+    <input type="number" min="0" max="50" name="maxValue" ></input>
+    <label> and </label>
+    <input type="number" min="0" max="50" name="minValue"></input>
+    <br></br>
+    <br></br>
+    <label>Choose the number of measures that should be displayed:</label>
+    <select name="nMeasures">
+      {{#each nMeasures as |val key|}}
+        <option value="{{val}}">{{val}}</option>
+      {{/each}}
+    </select>
+    <br></br>
+    <button type="button" onClick="funSubmit()" >Submit</button>
+    <br></br>
   </form>
   <form action="/" method="get">
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
     <br></br>
     <br></br>
     <br></br>
@@ -24,3 +34,22 @@
     <button type="submit">Back Home</button>
   </form>
 </font>
+<script>
+  function funSubmit(){
+    if(($("input[name='maxValue']").val() == '') || ($("input[name='minValue']").val() == '')){
+      alert('Fill all the input fields!');
+      return;
+    }
+    else if(($("input[name='maxValue']").val() > 50) || ($("input[name='maxValue']").val()<0) || ($("input[name='minValue']").val() > 50) || ($("input[name='minValue']").val()<0)){
+      alert('The values should be between 0 and 50!');
+      return;
+    }
+    else if($("input[name='maxValue']").val() == $("input[name='minValue']").val()){
+      alert('The values are equal!');
+      return;
+    }
+    else{
+      document.forms[0].submit();
+    }
+  }
+</script>
