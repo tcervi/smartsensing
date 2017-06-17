@@ -23,3 +23,6 @@ Delete table:
 --------------------------------------------------------------
 Get columns from different tables that are related
   SELECT (a.code || '-' || b.name || '-' || c.name) FROM sensor a INNER JOIN room b ON a.roomID=b.roomID INNER JOIN shed c ON b.shedID=c.shedID;
+--------------------------------------------------------------
+Get all data and timelog from sensor with specific code(last 10 measures)
+  SELECT (data || '/' || timeLog) FROM ( SELECT data,timeLog FROM measure INNER JOIN sensor ON sensor.sensorID=measure.sensorID WHERE sensor.code="bd96" ORDER BY measure.timeLog DESC LIMIT 10) ORDER BY timeLog;

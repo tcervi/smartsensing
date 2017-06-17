@@ -60,9 +60,27 @@ this.getAllSensorsOnDB = function(callback){
       var sensors = [];
       elements.forEach(function(element){
         sensors.push(element[Object.keys(element)[0]]);
-      })
+      });
     }
       db.close();
       callback(sensors);
+  });
+}
+
+this.getLastMeasuresOnDB = function(code, limit, callback){
+  var db = new sqlite3.Database(dbName);
+  db.all("SELECT (data || '/' || timeLog) FROM ( SELECT data,timeLog FROM measure INNER JOIN sensor ON sensor.sensorID=measure.sensorID WHERE sensor.code=? ORDER BY measure.timeLog DESC LIMIT ?) ORDER BY timeLog", [code, limit], function(err, elements){
+    if(err) {
+      console.log("Error while doing query on function getLastMeasuresOnDB: " + err);
+    } else {
+      var measures = [];
+      var timeLogs = [];
+      elements.forEach(function(element){
+        measures.push(element[Object.keys(element)[0]].split('/')[0]);
+        timeLogs.push(element[Object.keys(element)[0]].split('/')[1]);
+      })
+    }
+      db.close();
+      callback(measures, timeLogs);
   });
 }
