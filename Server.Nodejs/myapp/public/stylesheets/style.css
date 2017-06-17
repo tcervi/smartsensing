@@ -31,19 +31,22 @@ section h3 {
   padding-bottom: 5px;
 }
 
-.insert {
+.home {
+  position: absolute;
+  top: 580px;
+  left: 60px;
+  font-size: 19px;
+}
+
+.sensorEdit {
   background: #2ecc71;
 }
 
-.get {
-  background: #ecf0f1;
-}
-
-.update {
+.roomEdit {
   background: #3498db;
 }
 
-.delete {
+.shedEdit {
   background: #e74c3c;
 }
 

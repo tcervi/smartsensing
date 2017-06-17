@@ -15,15 +15,38 @@ router.get('/configureMonitorSensor', function(req, res, next) {
 });
 
 router.post('/monitoring', function(req, res, next) {
-  var maxValue = req.body.maxValue;
-  var minValue = req.body.minValue;
   var nMeasures = parseInt(req.body.nMeasures);
-  var sensor = req.body.sensor;
-  array = sensor.split('-');
-  var code = array[0];
+  var code = req.body.sensor.split('-')[0];
   dbHandler.getLastMeasuresOnDB(code, nMeasures, function(measures, timeLogs) {
-    res.render('monitoring', {title: 'SmartSensing', sensor: code, measures: measures, nMeasures: nMeasures, timeLogs: timeLogs, maxValue: maxValue, minValue: minValue});
+    res.render('monitoring', {title: 'SmartSensing', sensor: code, measures: measures, nMeasures: nMeasures, timeLogs: timeLogs, maxValue: req.body.maxValue, minValue: req.body.minValue});
   });
+});
+
+router.get('/setupDB', function(req, res, next) {
+  dbHandler.getAllSensorsOnDB(function(sensors) {
+    dbHandler.getAllRoomsOnDB(function(rooms) {
+      dbHandler.getAllShedsOnDB(function(sheds) {
+        dbHandler.getAllNonRegisteredSensorsOnDB(function(nonRegisteredSensors) {
+          res.render('setupDB', {title: 'SmartSensing', sensors: sensors, rooms: rooms, sheds: sheds, nonRegisteredSensors: nonRegisteredSensors});
+        });
+      });
+    });
+  });
+});
+
+router.post('/insertSensor', function(req, res, next) {
+  if((req.body.sensor != null) && (req.body.sensorRoom != null)){
+    var code = req.body.sensor.split('-')[0];
+    var room = req.body.sensorRoom.split('-')[0];
+    dbHandler.insertSensorOnDB(code, room, function(sensors) {
+      dbHandler.deleteSensorFromNonRegisteredOnDB(code, function() {
+        var msg = "Sensor with code <" + code + "> was successfully added to the Database!" ;
+        res.render('successSetupDB', {title: 'SmartSensing', msg: msg});
+      });
+    });
+  } else {
+    res.redirect('/setupDB');
+  }
 });
 
 router.get('/configureReport', function(req, res, next) {

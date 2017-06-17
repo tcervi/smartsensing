@@ -26,14 +26,10 @@
     <button type="button" onClick="funSubmit()" >Submit</button>
     <br></br>
   </form>
-  <form action="/" method="get">
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
-    <button type="submit">Back Home</button>
-  </form>
 </font>
+<form action="/" method="get">
+  <button class="home" type="submit">Home</button>
+</form>
 <script>
   function funSubmit(){
     if(($("input[name='maxValue']").val() == '') || ($("input[name='minValue']").val() == '')){

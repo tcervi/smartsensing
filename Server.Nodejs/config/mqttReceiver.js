@@ -19,11 +19,9 @@ client.on('message', (topic,message) => {
   dbHandler.checkSensorExists(code, function(sensorExists) {
     if(sensorExists) {
       console.log("Adding measure <" + measure + "> on sensor with code <" + code +"> to database...");
-      dbHandler.insertMeasureOnDB(code, dataType, measure, function() {
-        dbHandler.showMeasuresOfDB(function() {});
-      });
+      dbHandler.insertMeasureOnDB(code, dataType, measure, function() {});
     } else {
-      console.log("It was not possible to add measure from sensor with code <" +code + "> because sensor is not on the database yet...");
+      dbHandler.insertNonRegisteredSensor(code, function() {});
     }
   });
 })
