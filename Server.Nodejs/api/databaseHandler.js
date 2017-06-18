@@ -36,9 +36,9 @@ this.deleteSensorFromNonRegisteredOnDB = function(code, callback){
   });
 }
 
-this.insertSensorOnDB = function(code, room, callback){
+this.insertSensorOnDB = function(code, sensorDescription, room, callback){
   var db = new sqlite3.Database(dbName);
-  db.get("INSERT INTO sensor SELECT NULL, ?, '', roomID FROM room WHERE name=?", [code, room], function(err){
+  db.get("INSERT INTO sensor SELECT NULL, ?, ?, roomID FROM room WHERE name=?", [code, sensorDescription, room], function(err){
     db.close();
     if(err) {
       console.log("Error while doing query on function insertSensorOnDB: " + err);

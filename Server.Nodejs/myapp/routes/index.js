@@ -38,9 +38,9 @@ router.post('/insertSensor', function(req, res, next) {
   if((req.body.sensor != null) && (req.body.sensorRoom != null)){
     var code = req.body.sensor.split('-')[0];
     var room = req.body.sensorRoom.split('-')[0];
-    dbHandler.insertSensorOnDB(code, room, function() {
+    dbHandler.insertSensorOnDB(code, req.body.sensorDescription, room, function() {
       dbHandler.deleteSensorFromNonRegisteredOnDB(code, function() {
-        var msg = "Sensor with code <" + code + "> was successfully added to the Database!" ;
+        var msg = "Sensor with code <" + code + "> and description '" + req.body.sensorDescription + "' was successfully added to the Database!" ;
         res.render('successSetupDB', {title: 'SmartSensing', msg: msg});
       });
     });
@@ -50,7 +50,6 @@ router.post('/insertSensor', function(req, res, next) {
 });
 
 router.post('/insertRoom', function(req, res, next) {
-  console.log(req.body)
   if((req.body.room != '') && (req.body.roomShed != null)){
     dbHandler.insertRoomOnDB(req.body.room, req.body.roomDescription, req.body.roomShed, function() {
       var msg = "Room with name '" + req.body.room + "' and description '" + req.body.roomDescription + "' was successfully added to the Database!" ;
