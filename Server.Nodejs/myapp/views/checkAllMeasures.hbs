@@ -1,0 +1,15 @@
+<section class="measureShow">
+  <h3>Measures</h3>
+  {{# each measures }}
+    <article class="item">
+      <div>ID: {{ this.measureID }}</div>
+      <div>Time Log: {{ this.timeLog }}</div>
+      <div>Sensor Code: {{ this.code }}</div>
+      <div>Data Type: {{ this.name }}</div>
+      <div>Data: {{ this.data }}</div>
+    </article>
+  {{/each}}
+</section>
+<form action="/" method="get">
+  <button class="home" type="submit">Home</button>
+</form>

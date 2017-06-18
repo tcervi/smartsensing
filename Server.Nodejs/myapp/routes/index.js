@@ -12,10 +12,18 @@ router.get('/checkDB', function(req, res, next) {
     dbHandler.getAllTableInfoOnDB("room", function(rooms) {
       dbHandler.getAllTableInfoOnDB("shed", function(sheds) {
         dbHandler.getAllTableInfoOnDB("dataType", function(dataTypes) {
-          res.render('checkDB', {title: 'SmartSensing', sensors: sensors, rooms: rooms, sheds: sheds, dataTypes: dataTypes});
+          dbHandler.getAllTableInfoOnDB("nonRegisteredSensor", function(nonRegisteredSensors) {
+            res.render('checkDB', {title: 'SmartSensing', sensors: sensors, rooms: rooms, sheds: sheds, dataTypes: dataTypes, nonRegisteredSensors: nonRegisteredSensors});
+          });
         });
       });
     });
+  });
+});
+
+router.get('/checkAllMeasures', function(req, res, next) {
+  dbHandler.getAllMeasuresOnDB(function(measures) {
+    res.render('checkAllMeasures', {title: 'SmartSensing', measures: measures});
   });
 });
 

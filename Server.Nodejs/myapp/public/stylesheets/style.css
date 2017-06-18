@@ -38,6 +38,14 @@ section h3 {
   font-size: 19px;
 }
 
+.nonRegisteredSensorShow {
+  background: #CC20EF;
+}
+
+.measureShow {
+  background: #FF9B4E;
+}
+
 .dataTypeShow,
 .dataTypeEdit {
   background: #F0E32C;

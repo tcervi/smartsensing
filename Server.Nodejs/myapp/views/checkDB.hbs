@@ -39,6 +39,15 @@
     </article>
   {{/each}}
 </section>
+<section class="nonRegisteredSensorShow">
+  <h3>Non Registered Sensors</h3>
+  {{# each nonRegisteredSensors }}
+    <article class="item">
+      <div>ID: {{ this.nonRegisteredSensorID }}</div>
+      <div>Code: {{ this.code }}</div>
+    </article>
+  {{/each}}
+</section>
 <form action="/" method="get">
   <button class="home" type="submit">Home</button>
 </form>

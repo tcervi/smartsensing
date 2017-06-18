@@ -113,6 +113,18 @@ this.getAllTableInfoOnDB = function(table, callback){
   });
 }
 
+this.getAllMeasuresOnDB = function(callback){
+  var db = new sqlite3.Database(dbName);
+  db.all("SELECT measureID, data, timeLog, sensor.code, dataType.name FROM measure INNER JOIN sensor ON sensor.sensorID=measure.sensorID INNER JOIN dataType ON measure.dataTypeID=dataType.dataTypeID", function(err, rows){
+    db.close();
+    if(err) {
+      console.log("Error while doing query on function getAllMeasuresOnDB: " + err);
+    } else {
+    }
+    callback(rows);
+  });
+}
+
 this.getAllSensorsOnDB = function(callback){
   var db = new sqlite3.Database(dbName);
   db.all("SELECT (a.code || '-' || b.name || '-' || c.name) FROM sensor a INNER JOIN room b ON a.roomID=b.roomID INNER JOIN shed c ON b.shedID=c.shedID", function(err, elements){
