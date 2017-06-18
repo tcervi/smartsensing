@@ -1,0 +1,30 @@
+<div class="report">
+  <h2>Report</h2>
+  <h3>Measures by Sensor with code '{{sensor}}' between '{{initialDate}}' and '{{finalDate}}'</h3>
+  {{#if measures}}
+    <table>
+    <tr>
+      <th>Measure ID</th>
+      <th>Time Log</th>
+      <th>Data Type</th>
+      <th>Data</th>
+    </tr>
+      {{# each measures }}
+        <tr class="item">
+          <th>{{ this.measureID }}</th>
+          <th>{{ this.timeLog }}</th>
+          <th>{{ this.name }}</th>
+          <th>{{ this.data }}</th>
+        </tr>
+      {{/each}}
+    </table>
+  {{else}}
+    <h3>There are no Measures by this sensor on the chosen interval</h3>
+  {{/if}}
+</div>
+<form action="/configureReport" method="get">
+  <button class="backButton" type="submit">Back to Configure the Report</button>
+</form>
+<form action="/" method="get">
+  <button class="home" type="submit">Home</button>
+</form>

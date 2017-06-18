@@ -102,12 +102,12 @@ router.get('/configureReport', function(req, res, next) {
 });
 
 router.post('/report', function(req, res, next) {
-  var sensor = req.body.sensor;
-  var initialDate = req.body.initialDate;
-  var initialHour = req.body.initialHour;
-  var finalDate = req.body.finalDate;
-  var finalHour = req.body.finalHour;
-  res.send("Not implemented yet")
+  var sensor = req.body.sensor.split('-')[0];
+  var initialDate = req.body.initialDate.replace('T', ' ');
+  var finalDate = req.body.finalDate.replace('T', ' ');
+  dbHandler.getMeasuresFilteredByDateOnDB(sensor, initialDate, finalDate, function(measures) {
+    res.render('report', {title: 'SmartSensing', measures: measures, sensor: sensor, initialDate: initialDate, finalDate: finalDate});
+  });
 });
 
 module.exports = router;

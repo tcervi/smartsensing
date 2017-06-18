@@ -11,7 +11,8 @@
     </select>
     <br></br>
     <label>Insert your Sensor Description (optional):</label>
-    <input type"text" name="sensorDescription" maxlength="50"></input>
+    <input type"text" name="sensorDescription" maxlength="50" onkeydown="return checkKey(event)"></input>
+    <label style="color:red">'-' is not allowed!</label>
     <br></br>
     <label>Choose the Room for the chosen Sensor:</label>
     <select name="sensorRoom">
@@ -27,10 +28,12 @@
   <h3>Rooms</h3>
   <form action="/insertRoom" method="post">
     <label>Insert your Room name:</label>
-    <input type"text" name="room" maxlength="20"></input>
+    <input type"text" name="room" maxlength="20" onkeydown="return checkKey(event)"></input>
+    <label style="color:#F7FF00">'-' is not allowed!</label>
     <br></br>
     <label>Insert your Room Description (optional):</label>
-    <input type"text" name="roomDescription" maxlength="50"></input>
+    <input type"text" name="roomDescription" maxlength="50" onkeydown="return checkKey(event)"></input>
+    <label style="color:#F7FF00">'-' is not allowed!</label>
     <br></br>
     <label>Choose the Shed for your room:</label>
     <select name="roomShed">
@@ -46,10 +49,12 @@
   <h3>Sheds</h3>
   <form action="/insertShed" method="post">
     <label>Insert your Shed name:</label>
-    <input type"text" name="shed" maxlength="20"></input>
+    <input type"text" name="shed" maxlength="20" onkeydown="return checkKey(event)"></input>
+    <label style="color:#00FFF7">'-' is not allowed!</label>
     <br></br>
     <label>Insert your Shed Description (optional):</label>
-    <input type"text" name="shedDescription" maxlength="50"></input>
+    <input type"text" name="shedDescription" maxlength="50" onkeydown="return checkKey(event)"></input>
+    <label style="color:#00FFF7">'-' is not allowed!</label>
     <br></br>
     <button type="submit">INSERT</button>
   </form>
@@ -57,3 +62,11 @@
 <form action="/" method="get">
   <button class="home" type="submit">Home</button>
 </form>
+<script>
+  function checkKey(event) {
+    var key = event.which || event.keyCode;
+    if((key==189) || (key==45)){
+      return false;
+    }
+  }
+</script>

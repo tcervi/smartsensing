@@ -31,6 +31,13 @@ section h3 {
   padding-bottom: 5px;
 }
 
+.backButton {
+  position:fixed;
+  bottom:60px;
+  left:30px;
+  font-size: 19px;
+}
+
 .home {
   position:fixed;
   bottom:30px;
@@ -104,4 +111,38 @@ h1 {
   z-index: -1;
   color: rgb(177, 235, 255);
   font-size: 80px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  margin: 0px auto
+}
+
+th, td {
+  padding: 5px;
+}
+
+.report {
+  text-align: center;
+}
+
+.request {
+  text-align: center;
+  position:fixed;
+  top: 60px;
+  left: 60px
+}
+
+.check {
+  text-align: center;
+  position:fixed;
+  top: 60px;
+  left: 400px
+}
+
+.edit {
+  text-align: center;
+  position:fixed;
+  top: 60px;
+  left: 800px
 }

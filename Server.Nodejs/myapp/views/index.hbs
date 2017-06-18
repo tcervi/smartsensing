@@ -1,21 +1,27 @@
 <font size="4">
-  <form action="/configureReport" method="get">
-    <button type="submit">Get a Report!</button>
-  </form>
+  <div class="request">
+    <form action="/configureReport" method="get">
+      <button type="submit">Get a Report!</button>
+    </form>
+    <br></br>
+    <form action="/configureMonitorSensor" method="get">
+      <button type="submit">Monitor a Sensor!</button>
+    </form>
+  </div>
   <br></br>
-  <form action="/configureMonitorSensor" method="get">
-    <button type="submit">Monitor a Sensor!</button>
-  </form>
+  <div class="check">
+    <form action="/checkDB" method="get">
+      <button type="submit">Check your Database Setup!</button>
+    </form>
+    <br></br>
+    <form action="/checkAllMeasures" method="get">
+      <button type="submit">Check All the Measures on your Database!</button>
+    </form>
+  </div>
   <br></br>
-  <form action="/checkDB" method="get">
-    <button type="submit">Check your Database Setup!</button>
-  </form>
-  <br></br>
-  <form action="/checkAllMeasures" method="get">
-    <button type="submit">Check All the Measures on your Database!</button>
-  </form>
-  <br></br>
-  <form action="/setupDB" method="get">
-    <button type="submit">Add Sensors, Rooms and Sheds to your Database!</button>
-  </form>
+  <div class="edit">
+    <form action="/setupDB" method="get">
+      <button type="submit">Add Sensors, Rooms and Sheds to your Database!</button>
+    </form>
+  </div>
 </font>

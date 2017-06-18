@@ -12,27 +12,15 @@
     <br></br>
     <div id="initialDate">
       <label>Choose the Initial Date:</label>
-      <input name="initialDate" type="text" class="datepicker">
+      <input name="initialDate" type="datetime-local">
       <br></br>
-      <label>Choose the Initial Hour:</label>
-      <select name="initialHour">
-        {{#each hours as |val key|}}
-          <option value="{{val}}">{{val}}</option>
-        {{/each}}
-      </select>
     </div>
     <br></br>
     <br></br>
     <div id="finalDate">
       <label>Choose the Final Date:</label>
-      <input name="finalDate" type="text" class="datepicker">
+      <input name="finalDate" type="datetime-local">
       <br></br>
-      <label>Choose the Final Hour:</label>
-      <select name="finalHour">
-        {{#each hours as |val key|}}
-          <option value="{{val}}">{{val}}</option>
-        {{/each}}
-      </select>
     </div>
     <br></br>
     <button type="button" onClick="funSubmit()" >Submit</button>
@@ -42,9 +30,6 @@
   <button class="home" type="submit">Home</button>
 </form>
 <script>
-  $( function() {
-    $( ".datepicker" ).datepicker();
-  } );
   function funSubmit(){
     if($("input[name='initialDate']").val() == ''){
       alert('Fill the initial date!');
@@ -54,7 +39,9 @@
       alert('Fill the final date!');
       return;
     }
-    //else if(){} //Check if initial date is before final date!!
+    else if($("input[name='initialDate']").val() >= $("input[name='finalDate']").val() ){
+      alert("Initial date is greater or equal to final date!")
+    }
     else{
       document.forms[0].submit();
     }

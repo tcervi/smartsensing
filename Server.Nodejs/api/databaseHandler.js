@@ -107,7 +107,6 @@ this.getAllTableInfoOnDB = function(table, callback){
     db.close();
     if(err) {
       console.log("Error while doing query on function getAllTableInfoOnDB with table '"+ table +"': " + err);
-    } else {
     }
     callback(rows);
   });
@@ -119,7 +118,17 @@ this.getAllMeasuresOnDB = function(callback){
     db.close();
     if(err) {
       console.log("Error while doing query on function getAllMeasuresOnDB: " + err);
-    } else {
+    }
+    callback(rows);
+  });
+}
+
+this.getMeasuresFilteredByDateOnDB = function(code, initialDate, finalDate, callback){
+  var db = new sqlite3.Database(dbName);
+  db.all("SELECT measureID, data, timeLog, dataType.name FROM measure INNER JOIN sensor ON sensor.code=? INNER JOIN dataType ON measure.dataTypeID=dataType.dataTypeID WHERE timeLog BETWEEN ? AND ?", [code, initialDate, finalDate], function(err, rows) {
+    db.close();
+    if(err) {
+      console.log("Error while doing query on function getMeasuresFilteredByDateOnDB: " + err);
     }
     callback(rows);
   });
