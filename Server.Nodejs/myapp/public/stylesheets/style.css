@@ -32,20 +32,28 @@ section h3 {
 }
 
 .home {
-  position: absolute;
-  top: 580px;
-  left: 60px;
+  position:fixed;
+  bottom:30px;
+  left:30px;
   font-size: 19px;
 }
 
+.dataTypeShow,
+.dataTypeEdit {
+  background: #F0E32C;
+}
+
+.sensorShow,
 .sensorEdit {
   background: #2ecc71;
 }
 
+.roomShow,
 .roomEdit {
   background: #3498db;
 }
 
+.shedShow,
 .shedEdit {
   background: #e74c3c;
 }
@@ -82,9 +90,10 @@ button:hover {
 }
 
 h1 {
-  position: absolute;
-  top: 480px;
+  position:fixed;
+  bottom:0px;
   left: 500px;
+  z-index: -1;
   color: rgb(177, 235, 255);
   font-size: 80px;
 }

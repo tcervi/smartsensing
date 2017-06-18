@@ -101,18 +101,15 @@ this.insertNonRegisteredSensor = function(code, callback){
   });
 }
 
-this.showMeasuresOfDB = function(callback){
+this.getAllTableInfoOnDB = function(table, callback){
   var db = new sqlite3.Database(dbName);
-  db.all("SELECT * FROM measure", function(err, rows){
+  db.all(`SELECT * FROM ${table}`, function(err, rows){
     db.close();
     if(err) {
-      console.log("Error while doing query on function showMeasuresOfDB: " + err);
+      console.log("Error while doing query on function getAllTableInfoOnDB with table '"+ table +"': " + err);
     } else {
-      rows.forEach(function(row){
-        console.log(row);
-      })
     }
-    callback();
+    callback(rows);
   });
 }
 

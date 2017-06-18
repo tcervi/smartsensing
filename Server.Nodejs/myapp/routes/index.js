@@ -7,6 +7,18 @@ router.get('/', function(req, res, next) {
   res.render('index', {title: 'SmartSensing'});
 });
 
+router.get('/checkDB', function(req, res, next) {
+  dbHandler.getAllTableInfoOnDB("sensor", function(sensors) {
+    dbHandler.getAllTableInfoOnDB("room", function(rooms) {
+      dbHandler.getAllTableInfoOnDB("shed", function(sheds) {
+        dbHandler.getAllTableInfoOnDB("dataType", function(dataTypes) {
+          res.render('checkDB', {title: 'SmartSensing', sensors: sensors, rooms: rooms, sheds: sheds, dataTypes: dataTypes});
+        });
+      });
+    });
+  });
+});
+
 router.get('/configureMonitorSensor', function(req, res, next) {
   dbHandler.getAllSensorsOnDB(function(sensors) {
     var nMeasures = [5, 10, 15, 20, 25];

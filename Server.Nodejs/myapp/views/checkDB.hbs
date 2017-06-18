@@ -1,0 +1,44 @@
+<section class="sensorShow">
+  <h3>Sensors</h3>
+  {{# each sensors }}
+    <article class="item">
+      <div>ID: {{ this.sensorID }}</div>
+      <div>Code: {{ this.code }}</div>
+      <div>Description: {{ this.description }}</div>
+      <div>RoomID: {{ this.roomID }}</div>
+    </article>
+  {{/each}}
+</section>
+<section class="roomShow">
+  <h3>Rooms</h3>
+  {{# each rooms }}
+    <article class="item">
+      <div>ID: {{ this.roomID }}</div>
+      <div>Name: {{ this.name }}</div>
+      <div>Description: {{ this.description }}</div>
+      <div>ShedID: {{ this.shedID }}</div>
+    </article>
+  {{/each}}
+</section>
+<section class="shedShow">
+  <h3>Sheds</h3>
+  {{# each sheds }}
+    <article class="item">
+      <div>ID: {{ this.shedID }}</div>
+      <div>Name: {{ this.name }}</div>
+      <div>Description: {{ this.description }}</div>
+    </article>
+  {{/each}}
+</section>
+<section class="dataTypeShow">
+  <h3>Data Types</h3>
+  {{# each dataTypes }}
+    <article class="item">
+      <div>ID: {{ this.dataTypeID }}</div>
+      <div>Name: {{ this.name }}</div>
+    </article>
+  {{/each}}
+</section>
+<form action="/" method="get">
+  <button class="home" type="submit">Home</button>
+</form>
