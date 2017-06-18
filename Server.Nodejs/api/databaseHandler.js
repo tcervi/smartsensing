@@ -49,6 +49,32 @@ this.insertSensorOnDB = function(code, room, callback){
   });
 }
 
+this.insertRoomOnDB = function(room, roomDescription, shed, callback){
+  var db = new sqlite3.Database(dbName);
+  db.get("INSERT INTO room SELECT NULL, ?, ?, shedID FROM shed WHERE name=?", [room, roomDescription, shed], function(err){
+    db.close();
+    if(err) {
+      console.log("Error while doing query on function insertRoomOnDB: " + err);
+    } else {
+      console.log("Room with name '" + room + "' and description '" + roomDescription + "' was added to the room table!!!");
+    }
+    callback();
+  });
+}
+
+this.insertShedOnDB = function(shed, shedDescription, callback){
+  var db = new sqlite3.Database(dbName);
+  db.get("INSERT INTO shed VALUES (NULL, ?, ?)", [shed, shedDescription], function(err){
+    db.close();
+    if(err) {
+      console.log("Error while doing query on function insertShedOnDB: " + err);
+    } else {
+      console.log("Shed with name '" + shed + "' and description '" + shedDescription + "' was added to the shed table!!!");
+    }
+    callback();
+  });
+}
+
 this.insertMeasureOnDB = function(code, dataType, measure, callback){
   var db = new sqlite3.Database(dbName);
   db.get("INSERT INTO measure SELECT NULL, ?, (SELECT dateTime('now', 'localtime')), sensorID, (SELECT dataTypeID FROM dataType WHERE name =?) FROM sensor WHERE code=?", [measure, dataType, code], function(err){

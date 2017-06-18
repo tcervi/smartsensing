@@ -38,11 +38,34 @@ router.post('/insertSensor', function(req, res, next) {
   if((req.body.sensor != null) && (req.body.sensorRoom != null)){
     var code = req.body.sensor.split('-')[0];
     var room = req.body.sensorRoom.split('-')[0];
-    dbHandler.insertSensorOnDB(code, room, function(sensors) {
+    dbHandler.insertSensorOnDB(code, room, function() {
       dbHandler.deleteSensorFromNonRegisteredOnDB(code, function() {
         var msg = "Sensor with code <" + code + "> was successfully added to the Database!" ;
         res.render('successSetupDB', {title: 'SmartSensing', msg: msg});
       });
+    });
+  } else {
+    res.redirect('/setupDB');
+  }
+});
+
+router.post('/insertRoom', function(req, res, next) {
+  console.log(req.body)
+  if((req.body.room != '') && (req.body.roomShed != null)){
+    dbHandler.insertRoomOnDB(req.body.room, req.body.roomDescription, req.body.roomShed, function() {
+      var msg = "Room with name '" + req.body.room + "' and description '" + req.body.roomDescription + "' was successfully added to the Database!" ;
+      res.render('successSetupDB', {title: 'SmartSensing', msg: msg});
+    });
+  } else {
+    res.redirect('/setupDB');
+  }
+});
+
+router.post('/insertShed', function(req, res, next) {
+  if(req.body.shed != ''){
+    dbHandler.insertShedOnDB(req.body.shed, req.body.shedDescription, function() {
+      var msg = "Shed with name '" + req.body.shed + "' and description '" + req.body.shedDescription + "' was successfully added to the Database!" ;
+      res.render('successSetupDB', {title: 'SmartSensing', msg: msg});
     });
   } else {
     res.redirect('/setupDB');

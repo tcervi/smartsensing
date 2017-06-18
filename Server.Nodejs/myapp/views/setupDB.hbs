@@ -1,28 +1,55 @@
 <section class="sensorEdit">
-    <h3>Sensors</h3>
-    <form action="/insertSensor" method="post">
-    <p>The Sensors listed bellow sent data but they are not registered yet. Add one of them to the Database if you want!</p>
+  <h3>Sensors</h3>
+  <form action="/insertSensor" method="post">
+  <p>The Sensors listed bellow sent data but they are not registered yet. Add one of them to the Database if you want!</p>
+  <br></br>
+    <label>Choose the Sensor (code-reported time):</label>
+    <select name="sensor">
+      {{#each nonRegisteredSensors as |val key|}}
+        <option value="{{val}}">{{val}}</option>
+      {{/each}}
+    </select>
     <br></br>
-      <label>Choose the Sensor (code-reported time):</label>
-      <select name="sensor">
-        {{#each nonRegisteredSensors as |val key|}}
-          <option value="{{val}}">{{val}}</option>
-        {{/each}}
-      </select>
-      <br></br>
-      <label>Choose the Room for the chosen Sensor:</label>
-      <select name="sensorRoom">
-        {{#each rooms as |val key|}}
-          <option value="{{val}}">{{val}}</option>
-        {{/each}}
-      </select>
-      <br></br>
-      <button type="submit">INSERT</button>
-    </form>
+    <label>Choose the Room for the chosen Sensor:</label>
+    <select name="sensorRoom">
+      {{#each rooms as |val key|}}
+        <option value="{{val}}">{{val}}</option>
+      {{/each}}
+    </select>
+    <br></br>
+    <button type="submit">INSERT</button>
+  </form>
 </section>
 <section class="roomEdit">
+  <h3>Rooms</h3>
+  <form action="/insertRoom" method="post">
+    <label>Insert your Room name:</label>
+    <input type"text" name="room" maxlength="20"></input>
+    <br></br>
+    <label>Insert your Room Description (optional):</label>
+    <input type"text" name="roomDescription" maxlength="50"></input>
+    <br></br>
+    <label>Choose the Shed for your room:</label>
+    <select name="roomShed">
+      {{#each sheds as |val key|}}
+        <option value="{{val}}">{{val}}</option>
+      {{/each}}
+    </select>
+    <br></br>
+    <button type="submit">INSERT</button>
+  </form>
 </section>
 <section class="shedEdit">
+  <h3>Sheds</h3>
+  <form action="/insertShed" method="post">
+    <label>Insert your Shed name:</label>
+    <input type"text" name="shed" maxlength="20"></input>
+    <br></br>
+    <label>Insert your Shed Description (optional):</label>
+    <input type"text" name="shedDescription" maxlength="50"></input>
+    <br></br>
+    <button type="submit">INSERT</button>
+  </form>
 </section>
 <form action="/" method="get">
   <button class="home" type="submit">Home</button>
