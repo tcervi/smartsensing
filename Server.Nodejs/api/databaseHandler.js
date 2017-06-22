@@ -2,9 +2,9 @@ const async = require('async')
 const sqlite3 = require('sqlite3').verbose();
 const dbName = "dataBaseSS";
 
-this.checkSensorExists = function(code, callback){
+this.checkSensorExists = function(table, code, callback){
   var db = new sqlite3.Database(dbName);
-  db.get("SELECT count(*) FROM sensor WHERE code=?", [code], function(err, search){
+  db.get(`SELECT count(*) FROM ${table} WHERE code="${code}"`, function(err, search){
     db.close();
     if(err) {
       console.log("Error while doing query on function checkSensorExists: " + err);

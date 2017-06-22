@@ -16,12 +16,17 @@ client.on('message', (topic,message) => {
   var array = topic.split('/');
   var code = array[0];
   var dataType = array[1];
-  dbHandler.checkSensorExists(code, function(sensorExists) {
+  dbHandler.checkSensorExists("sensor", code, function(sensorExists) {
     if(sensorExists) {
       console.log("Adding measure <" + measure + "> on sensor with code <" + code +"> to database...");
       dbHandler.insertMeasureOnDB(code, dataType, measure, function() {});
     } else {
-      dbHandler.insertNonRegisteredSensor(code, function() {});
+      console.log("Searching sensor with code <" + code +"> on nonregisteredsensor table...");
+      dbHandler.checkSensorExists("nonregisteredsensor", code, function(sensorExists){
+        if(!sensorExists){
+          dbHandler.insertNonRegisteredSensor(code, function() {});
+        }
+      });
     }
   });
 })
