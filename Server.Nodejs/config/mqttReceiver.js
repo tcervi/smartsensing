@@ -12,7 +12,7 @@ client.on('connect', () => {
 
 client.on('message', (topic,message) => {
   console.log('Received message <%s> on topic <%s>', message, topic);
-  var measure = parseFloat(message);
+  var measure = parseFloat(message)/100;
   var array = topic.split('/');
   var code = array[0];
   var dataType = array[1];
