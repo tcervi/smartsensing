@@ -27,7 +27,7 @@
   for (var i = 0; i < len; i++) {
       data.push({
           X: (i+1),
-          Y: measures[i]
+          Y: parseFloat(measures[i])
       });
   }
 
@@ -78,8 +78,8 @@
   c.lineTo(graph.width - xPadding/2, graph.height - yPadding);
   c.stroke();
 
-  maxValue = {{maxValue}};
-  minValue = {{minValue}};
+  maxValue = parseFloat({{maxValue}});
+  minValue = parseFloat({{minValue}});
 
   // Draw the maxValueLine
   var maxValuePx = (graph.height - yPadding)*(getMaxY()-maxValue)/getMaxY();
@@ -116,7 +116,8 @@
       c.fillText(i, xPadding - 10, getYPixel(i));
   }
 
-  c.strokeStyle = '#0000cf';
+  c.strokeStyle = '#000000';
+  c.lineWidth=1.5;
 
   // Draw the line graph
   c.beginPath();
@@ -130,6 +131,13 @@
   c.fillStyle = '#333';
 
   for(var i = 0; i < data.length; i ++) {
+      if((data[i].Y > maxValue) || (data[i].Y < minValue)) {
+        c.fillStyle = '#ff0000';
+      } else if((data[i].Y == maxValue) || (data[i].Y == minValue)) {
+        c.fillStyle = '#00ffff';
+      } else {
+        c.fillStyle = '#00ff00';
+      }
       c.beginPath();
       c.arc(getXPixel(data[i].X), getYPixel(data[i].Y), 4, 0, Math.PI * 2, true);
       c.fill();

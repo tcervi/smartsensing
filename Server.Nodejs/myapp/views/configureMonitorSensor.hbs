@@ -10,10 +10,10 @@
     <br></br>
     <label>Choose the interval in which the measures should be (between 0 and 50):</label>
     <br></br>
-    <label>The values should be between </label>
-    <input type="number" min="0" max="50" name="maxValue" ></input>
-    <label> and </label>
+    <label>The values should be between Min:</label>
     <input type="number" min="0" max="50" name="minValue"></input>
+    <label> and Max:</label>
+    <input type="number" min="0" max="50" name="maxValue"></input>
     <br></br>
     <br></br>
     <label>Choose the number of measures that should be displayed:</label>
@@ -42,6 +42,10 @@
     }
     else if($("input[name='maxValue']").val() == $("input[name='minValue']").val()){
       alert('The values are equal!');
+      return;
+    }
+    else if($("input[name='maxValue']").val() < $("input[name='minValue']").val()){
+      alert('The Min Value is greater than the Max Value!');
       return;
     }
     else{

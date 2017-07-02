@@ -2,12 +2,10 @@ const dbHandler = require('./../api/databaseHandler');
 const async = require('async');
 const mqtt = require('mqtt');
 const client = mqtt.connect('mqtt://localhost');
-//var nonExistentSensors = []; //must delete sensor from array after creating it
 
 
 client.on('connect', () => {
   client.subscribe('#');
-  //Inform nodes that receiver is connected
 })
 
 client.on('message', (topic,message) => {
@@ -18,8 +16,12 @@ client.on('message', (topic,message) => {
   var dataType = array[1];
   dbHandler.checkSensorExists("sensor", code, function(sensorExists) {
     if(sensorExists) {
-      console.log("Adding measure <" + measure + "> on sensor with code <" + code +"> to database...");
-      dbHandler.insertMeasureOnDB(code, dataType, measure, function() {});
+      if((measure > 50) || (measure < 1)){
+        console.log("Received measure outside the interval 1-51, it will not be added to the DB..");
+      } else {
+        console.log("Adding measure <" + measure + "> on sensor with code <" + code +"> to database...");
+        dbHandler.insertMeasureOnDB(code, dataType, measure, function() {});
+      }
     } else {
       console.log("Searching sensor with code <" + code +"> on nonregisteredsensor table...");
       dbHandler.checkSensorExists("nonregisteredsensor", code, function(sensorExists){
